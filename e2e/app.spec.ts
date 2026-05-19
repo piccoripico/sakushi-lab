@@ -49,18 +49,18 @@ test.describe('Sakushi Lab', () => {
 
   test('generates, changes the URL, and reproduces the same state from that URL', async ({ page }) => {
     await page.goto('/');
-    const originalUrl = await page.getByTestId('share-url').inputValue();
+    const originalUrl = page.url();
     const originalSignature = await canvasSignature(page);
 
     await page.getByTestId('generate-button').click();
-    await expect(page.getByTestId('share-url')).not.toHaveValue(originalUrl);
-    const randomizedUrl = await page.getByTestId('share-url').inputValue();
+    const randomizedUrl = page.url();
     const randomizedSignature = await canvasSignature(page);
 
+    expect(randomizedUrl).not.toBe(originalUrl);
+    expect(randomizedUrl).toContain('lang=en&i=cafe-wall&seed=');
     expect(randomizedSignature).not.toBe(originalSignature);
 
     await page.goto(randomizedUrl);
-    await expect(page.getByTestId('share-url')).toHaveValue(randomizedUrl);
     expect(await canvasSignature(page)).toBe(randomizedSignature);
   });
 
@@ -96,7 +96,7 @@ test.describe('Sakushi Lab', () => {
     await page.getByTestId('seed-lock-input').check();
     await page.getByTestId('generate-button').click();
     await expect(page.getByTestId('seed-input')).toHaveValue(generatedSeed);
-    await expect(page.getByTestId('share-url')).toHaveValue(/lock=1/);
+    expect(page.url()).toContain('lock=1');
   });
 
   test('can hide the Müller-Lyer guide line', async ({ page }) => {
@@ -115,8 +115,24 @@ test.describe('Sakushi Lab', () => {
   });
 
 
-  test('exports PNG, SVG, WebM, and a shareable URL', async ({ page }) => {
+  test('exports PNG, SVG, WebM, and copies a shareable URL', async ({ page, context }) => {
+    await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     await page.goto('/');
+    await expect(page.getByTestId('share-url')).toHaveCount(0);
+    await expect(page.getByTestId('export-menu').getByRole('button')).toHaveCount(3);
+    await expect(page.getByTestId('export-menu').getByTestId('url-button')).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: 'Reproducible and shareable URL' })).toBeVisible();
+    expect(
+      await page.evaluate(() => {
+        const exportMenu = document.querySelector('[data-testid="export-menu"]');
+        const shareMenu = document.querySelector('[data-testid="share-menu"]');
+        if (!exportMenu || !shareMenu) {
+          return false;
+        }
+
+        return Boolean(exportMenu.compareDocumentPosition(shareMenu) & Node.DOCUMENT_POSITION_FOLLOWING);
+      })
+    ).toBe(true);
 
     const png = page.waitForEvent('download');
     await page.getByTestId('png-button').click();
@@ -127,7 +143,9 @@ test.describe('Sakushi Lab', () => {
     expect((await svg).suggestedFilename()).toMatch(/^cafe-wall-.+-\d{8}-\d{6}\.svg$/);
 
     await page.getByTestId('url-button').click();
-    await expect(page.getByTestId('share-url')).toHaveValue(/lang=en&i=cafe-wall&seed=/);
+    await expect(page.getByTestId('status-text')).toHaveText('URL copied.');
+    const copiedUrl = await page.evaluate(() => navigator.clipboard.readText());
+    expect(copiedUrl).toContain('lang=en&i=cafe-wall&seed=');
 
     await page.getByTestId('illusion-select').selectOption('moire-motion');
     const webm = page.waitForEvent('download');
@@ -156,7 +174,7 @@ test.describe('Sakushi Lab', () => {
     await expect(canvas).toHaveJSProperty('width', 900);
     await expect(canvas).toHaveJSProperty('height', 900);
 
-    const url = await page.getByTestId('share-url').inputValue();
+    const url = page.url();
     expect(url).toContain('view=large');
     await page.goto(url);
     await expect(page.getByTestId('preview-size-select')).toHaveValue('large');

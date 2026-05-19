@@ -88,10 +88,16 @@ root.innerHTML = `
       <div class="section-heading compact">
         <h3 data-i18n="export.title"></h3>
       </div>
-      <div class="export-grid">
+      <div class="export-grid" data-testid="export-menu">
         <button id="pngButton" type="button" class="secondary-button" data-testid="png-button" data-i18n="export.png"></button>
         <button id="svgButton" type="button" class="secondary-button" data-testid="svg-button" data-i18n="export.svg"></button>
         <button id="webmButton" type="button" class="secondary-button" data-testid="webm-button" data-i18n="export.webm"></button>
+      </div>
+
+      <div class="section-heading compact">
+        <h3 data-i18n="share.title"></h3>
+      </div>
+      <div class="share-grid" data-testid="share-menu">
         <button id="urlButton" type="button" class="secondary-button" data-testid="url-button" data-i18n="export.url"></button>
       </div>
       <p id="statusText" class="status-text" data-testid="status-text" aria-live="polite"></p>
@@ -114,10 +120,6 @@ root.innerHTML = `
           <p id="illusionDescription" data-testid="illusion-description"></p>
         </div>
         <p id="motionWarning" class="motion-warning" data-testid="motion-warning"></p>
-        <label class="field share-field">
-          <span data-i18n="info.shareLabel"></span>
-          <input id="shareUrl" data-testid="share-url" type="text" readonly>
-        </label>
       </section>
     </div>
   </main>
@@ -149,8 +151,7 @@ const elements = {
   canvasWrap: must<HTMLDivElement>('#canvasWrap'),
   canvas: must<HTMLCanvasElement>('#illusionCanvas'),
   description: must<HTMLParagraphElement>('#illusionDescription'),
-  motionWarning: must<HTMLParagraphElement>('#motionWarning'),
-  shareUrl: must<HTMLInputElement>('#shareUrl')
+  motionWarning: must<HTMLParagraphElement>('#motionWarning')
 };
 
 const maybeCtx = elements.canvas.getContext('2d');
@@ -210,7 +211,6 @@ function bindEvents(): void {
     const seed = elements.seedInput.value.trim() || randomSeed();
     state = { ...state, seed };
     elements.seedInput.value = seed;
-    updateShareUrl();
     writeUrl();
   });
 
@@ -276,7 +276,6 @@ function renderAll(): void {
   renderStateFields();
   renderParamControls(illusion);
   renderInfo(illusion);
-  updateShareUrl();
   renderPlayState();
   scheduleDraw();
 }
@@ -401,7 +400,6 @@ function updateParam(control: ParamControl, value: ParamValue): void {
       [control.key]: value
     })
   };
-  updateShareUrl();
   writeUrl();
   scheduleDraw();
 }
@@ -477,25 +475,18 @@ async function handleWebmExport(): Promise<void> {
 }
 
 async function copyShareUrl(): Promise<void> {
-  updateShareUrl();
-  elements.shareUrl.select();
+  const shareUrl = stateToUrl(state);
 
   try {
-    await navigator.clipboard.writeText(elements.shareUrl.value);
+    await navigator.clipboard.writeText(shareUrl);
     setStatus('export.copyDone');
   } catch {
-    document.execCommand('copy');
     setStatus('export.copyFailed');
   }
 }
 
-function updateShareUrl(): void {
-  elements.shareUrl.value = stateToUrl(state);
-}
-
 function writeUrl(): void {
   history.replaceState(null, '', stateToSearch(state));
-  updateShareUrl();
 }
 
 function currentIllusion(): IllusionDefinition {

@@ -234,6 +234,11 @@ h1 {
   gap: 8px;
 }
 
+.share-grid {
+  display: grid;
+  gap: 8px;
+}
+
 .primary-button {
   background: var(--teal);
   color: #fff;
@@ -367,14 +372,6 @@ canvas {
   border-left-color: var(--rose);
   background: #fff1f2;
   color: #881337 !important;
-}
-
-.share-field {
-  grid-column: 1 / -1;
-}
-
-.share-field input {
-  font-size: 0.84rem;
 }
 
 .status-text {
