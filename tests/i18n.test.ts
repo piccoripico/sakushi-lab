@@ -38,9 +38,12 @@ describe('i18n', () => {
     expect(Object.hasOwn(translations.en, 'actions.randomize')).toBe(false);
     expect(Object.hasOwn(translations.en, 'controls.lockSeed')).toBe(false);
     expect(Object.hasOwn(translations.en, 'info.shareLabel')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'export.url')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'share.title')).toBe(false);
     expect(translations.en['app.title']).toBe('Sakushi Lab');
     expect(translations.en['actions.generate']).toBe('Generate');
-    expect(translations.en['share.title']).toBe('Reproducible and shareable URL');
+    expect(translations.en['stateCopy.title']).toBe('Reproducible and shareable URL');
+    expect(translations.en['stateCopy.copy']).toBe('Copy URL');
     expect(translations.ja['controls.disableRandomSeed']).toBe('シードをランダム入力しない');
     expect(translations.en['app.description']).toContain('Explore');
     expect(translations.ja['app.description']).toContain('錯視の起こりやすさ');

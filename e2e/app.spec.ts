@@ -121,16 +121,22 @@ test.describe('Sakushi Lab', () => {
     await expect(page.getByTestId('share-url')).toHaveCount(0);
     await expect(page.getByTestId('export-menu').getByRole('button')).toHaveCount(3);
     await expect(page.getByTestId('export-menu').getByTestId('url-button')).toHaveCount(0);
+    await expect(page.getByTestId('share-menu')).toHaveCount(0);
+    await expect(page.locator('#urlButton')).toHaveCount(0);
+    await expect(page.locator('[data-i18n="share.title"]')).toHaveCount(0);
+    await expect(page.locator('[data-i18n="export.url"]')).toHaveCount(0);
     await expect(page.getByRole('heading', { name: 'Reproducible and shareable URL' })).toBeVisible();
+    const copyStateButton = page.getByTestId('copy-state-button');
+    await expect(page.getByTestId('state-copy-menu').getByTestId('copy-state-button')).toBeVisible();
     expect(
       await page.evaluate(() => {
         const exportMenu = document.querySelector('[data-testid="export-menu"]');
-        const shareMenu = document.querySelector('[data-testid="share-menu"]');
-        if (!exportMenu || !shareMenu) {
+        const stateCopyMenu = document.querySelector('[data-testid="state-copy-menu"]');
+        if (!exportMenu || !stateCopyMenu) {
           return false;
         }
 
-        return Boolean(exportMenu.compareDocumentPosition(shareMenu) & Node.DOCUMENT_POSITION_FOLLOWING);
+        return Boolean(exportMenu.compareDocumentPosition(stateCopyMenu) & Node.DOCUMENT_POSITION_FOLLOWING);
       })
     ).toBe(true);
 
@@ -142,7 +148,7 @@ test.describe('Sakushi Lab', () => {
     await page.getByTestId('svg-button').click();
     expect((await svg).suggestedFilename()).toMatch(/^cafe-wall-.+-\d{8}-\d{6}\.svg$/);
 
-    await page.getByTestId('url-button').click();
+    await copyStateButton.click();
     await expect(page.getByTestId('status-text')).toHaveText('URL copied.');
     const copiedUrl = await page.evaluate(() => navigator.clipboard.readText());
     expect(copiedUrl).toContain('lang=en&i=cafe-wall&seed=');

@@ -95,10 +95,10 @@ root.innerHTML = `
       </div>
 
       <div class="section-heading compact">
-        <h3 data-i18n="share.title"></h3>
+        <h3 data-i18n="stateCopy.title"></h3>
       </div>
-      <div class="share-grid" data-testid="share-menu">
-        <button id="urlButton" type="button" class="secondary-button" data-testid="url-button" data-i18n="export.url"></button>
+      <div class="state-copy-grid" data-testid="state-copy-menu">
+        <button id="copyStateButton" type="button" class="secondary-button" data-testid="copy-state-button" data-i18n="stateCopy.copy"></button>
       </div>
       <p id="statusText" class="status-text" data-testid="status-text" aria-live="polite"></p>
     </aside>
@@ -145,7 +145,7 @@ const elements = {
   pngButton: must<HTMLButtonElement>('#pngButton'),
   svgButton: must<HTMLButtonElement>('#svgButton'),
   webmButton: must<HTMLButtonElement>('#webmButton'),
-  urlButton: must<HTMLButtonElement>('#urlButton'),
+  copyStateButton: must<HTMLButtonElement>('#copyStateButton'),
   statusText: must<HTMLParagraphElement>('#statusText'),
   playButton: must<HTMLButtonElement>('#playButton'),
   canvasWrap: must<HTMLDivElement>('#canvasWrap'),
@@ -255,8 +255,8 @@ function bindEvents(): void {
     void handleWebmExport();
   });
 
-  elements.urlButton.addEventListener('click', () => {
-    void copyShareUrl();
+  elements.copyStateButton.addEventListener('click', () => {
+    void copyStateAddress();
   });
 
   elements.playButton.addEventListener('click', () => {
@@ -474,11 +474,11 @@ async function handleWebmExport(): Promise<void> {
   }
 }
 
-async function copyShareUrl(): Promise<void> {
-  const shareUrl = stateToUrl(state);
+async function copyStateAddress(): Promise<void> {
+  const stateAddress = stateToUrl(state);
 
   try {
-    await navigator.clipboard.writeText(shareUrl);
+    await navigator.clipboard.writeText(stateAddress);
     setStatus('export.copyDone');
   } catch {
     setStatus('export.copyFailed');
