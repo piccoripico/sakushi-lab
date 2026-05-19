@@ -1,0 +1,22 @@
+{
+  "name": "sakushi-lab",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 4175",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "verify": "npm run test && npm run build && npm run test:e2e"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^24.10.1",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.4",
+    "vitest": "^4.0.14"
+  }
+}
