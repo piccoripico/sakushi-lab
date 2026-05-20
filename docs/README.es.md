@@ -24,13 +24,34 @@ Las imágenes y videos generados son útiles para aprendizaje, demostraciones, e
 
 ## Funciones
 
-- Seis ilusiones visuales:
-  - Café Wall
-  - Hermann / Scintillating Grid
-  - Müller-Lyer
-  - Ebbinghaus
-  - Fraser Spiral
-  - Moiré Motion Field
+- 24 ilusiones visuales:
+  - Geometría / forma:
+    - Café Wall: los mosaicos desplazados hacen que líneas paralelas parezcan inclinadas.
+    - Hermann / Scintillating Grid: las intersecciones de la cuadrícula crean manchas oscuras fugaces.
+    - Müller-Lyer: las aletas cambian la longitud percibida de líneas iguales.
+    - Ponzo: las pistas de perspectiva hacen que barras iguales parezcan distintas.
+    - Poggendorff: una banda que oculta hace que una diagonal parezca desplazada.
+    - Zöllner: trazos cruzados hacen que líneas paralelas parezcan inclinarse.
+    - Hering: líneas radiantes curvan visualmente paralelas hacia fuera.
+    - Wundt: líneas convergentes curvan visualmente paralelas hacia dentro.
+    - Vertical-horizontal: líneas verticales y horizontales iguales parecen desiguales.
+    - Jastrow: bandas curvas idénticas parecen distintas al desplazarse.
+    - Ebbinghaus: los círculos alrededor cambian el tamaño percibido de centros iguales.
+    - Delboeuf: los anillos alrededor cambian el tamaño percibido de círculos iguales.
+    - Paralelogramo de Sander: marcos inclinados distorsionan la longitud percibida.
+    - Triángulo de Kanizsa: formas recortadas sugieren un triángulo no dibujado.
+    - Fraser Spiral: arcos inclinados sobre círculos sugieren una espiral.
+  - Color / brillo:
+    - Contraste simultáneo: un mismo color cambia según lo que lo rodea.
+    - Bandas de Mach: los bordes de brillo crean franjas claras y oscuras.
+    - Ilusión de White: grises iguales parecen distintos sobre rayas.
+    - Cornsweet: un borde sombreado fino cambia el brillo percibido.
+  - Movimiento:
+    - Moiré Motion Field: rayas superpuestas crean interferencias móviles.
+    - Deriva periférica: patrones repetidos de contraste parecen desplazarse.
+    - Ilusión de Ouchi: un centro rayado parece deslizarse sobre el fondo.
+    - Perseguidor lila: un hueco giratorio crea una sensación de postimagen.
+    - Pinna-Brelstaff: segmentos inclinados en anillos parecen rotar.
 - Controles de parámetros generados desde el esquema de cada módulo de ilusión.
 - Controles opcionales de semilla para generación reproducible.
 - Generación determinista con URL compartible basada en semilla.

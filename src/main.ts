@@ -2,7 +2,7 @@ import './styles.css';
 import { LANGUAGE_NAMES, SUPPORTED_LANGUAGES, createTranslator, type SupportedLanguage, type TranslationKey } from './i18n';
 import { downloadPng, downloadSvg, downloadWebM } from './exporters';
 import { createExportBaseName } from './filenames';
-import { illusions, getIllusion, randomizeParams } from './illusions/registry';
+import { illusionGroups, illusions, getIllusion, randomizeParams } from './illusions/registry';
 import { createRng, randomSeed } from './rng';
 import { defaultState, readStateFromUrl, stateToSearch, stateToUrl } from './state';
 import {
@@ -298,12 +298,23 @@ function populateLanguageSelect(): void {
 }
 
 function populateIllusionSelect(): void {
-  elements.illusionSelect.replaceChildren(...illusions.map((illusion) => {
-    const option = document.createElement('option');
-    option.value = illusion.id;
-    option.textContent = t(illusion.titleKey as TranslationKey);
-    return option;
-  }));
+  const fragment = document.createDocumentFragment();
+
+  for (const group of illusionGroups) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = t(group.titleKey as TranslationKey);
+
+    for (const illusion of group.illusions) {
+      const option = document.createElement('option');
+      option.value = illusion.id;
+      option.textContent = t(illusion.titleKey as TranslationKey);
+      optgroup.append(option);
+    }
+
+    fragment.append(optgroup);
+  }
+
+  elements.illusionSelect.replaceChildren(fragment);
 }
 
 function populatePreviewSizeSelect(): void {

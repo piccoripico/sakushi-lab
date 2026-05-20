@@ -24,13 +24,34 @@ Die erzeugten Bilder und Videos eignen sich für Lernen, Demonstrationen, Design
 
 ## Funktionen
 
-- Sechs visuelle Illusionen:
-  - Café Wall
-  - Hermann / Scintillating Grid
-  - Müller-Lyer
-  - Ebbinghaus
-  - Fraser Spiral
-  - Moiré Motion Field
+- 24 visuelle Illusionen:
+  - Geometrie / Form:
+    - Café Wall: versetzte Kacheln lassen parallele Linien geneigt wirken.
+    - Hermann / Scintillating Grid: Rasterkreuzungen erzeugen flüchtige dunkle Flecken.
+    - Müller-Lyer: Pfeilflügel verändern die wahrgenommene Länge gleicher Linien.
+    - Ponzo: Perspektivhinweise lassen gleiche Balken verschieden wirken.
+    - Poggendorff: ein verdeckender Balken lässt eine Diagonale versetzt erscheinen.
+    - Zöllner: Querstriche lassen parallele Linien geneigt wirken.
+    - Hering: Strahlenlinien biegen parallele Geraden scheinbar nach außen.
+    - Wundt: zusammenlaufende Linien biegen parallele Geraden scheinbar nach innen.
+    - Vertikal-horizontal: gleiche vertikale und horizontale Linien wirken ungleich.
+    - Jastrow: identische gebogene Bänder wirken versetzt verschieden.
+    - Ebbinghaus: umgebende Kreise verändern die wahrgenommene Größe gleicher Zentren.
+    - Delboeuf: umgebende Ringe verändern die wahrgenommene Größe gleicher Kreise.
+    - Sander-Parallelogramm: schräge Rahmen verzerren die wahrgenommene Linienlänge.
+    - Kanizsa-Dreieck: ausgesparte Formen deuten ein nicht gezeichnetes Dreieck an.
+    - Fraser Spiral: geneigte Bögen auf Kreisen suggerieren eine Spirale.
+  - Farbe / Helligkeit:
+    - Simultankontrast: dieselbe Farbe verändert sich durch ihre Umgebung.
+    - Mach-Bänder: Helligkeitskanten erzeugen helle und dunkle Säume.
+    - White-Illusion: gleiche Grautöne wirken auf Streifen verschieden.
+    - Cornsweet: eine schmale Schattenkante verändert die wahrgenommene Helligkeit.
+  - Bewegung:
+    - Moiré Motion Field: überlagerte Streifen erzeugen bewegte Interferenzen.
+    - Periphere Drift: wiederholte Kontrastmuster scheinen zu driften.
+    - Ouchi-Illusion: ein gestreiftes Zentrum scheint über den Hintergrund zu gleiten.
+    - Lila Verfolger: eine rotierende Lücke erzeugt eine Nachbild-Empfindung.
+    - Pinna-Brelstaff: geneigte Ringsegmente scheinen zu rotieren.
 - Parametersteuerungen, die aus dem Schema jedes Illusionsmoduls erzeugt werden.
 - Optionale Seed-Steuerung für reproduzierbare Generierung.
 - Deterministische Generierung mit Seed-basierter URL-Freigabe.

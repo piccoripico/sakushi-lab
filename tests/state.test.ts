@@ -5,12 +5,14 @@ import { encodeParams, readStateFromUrl, stateToSearch } from '../src/state';
 
 describe('seeded randomization and URL state', () => {
   it('uses deterministic seeded random values', () => {
-    const first = illusions[0].randomize(createRng('same-seed'));
-    const second = illusions[0].randomize(createRng('same-seed'));
-    const third = illusions[0].randomize(createRng('other-seed'));
+    for (const illusion of illusions) {
+      const first = illusion.randomize(createRng(`${illusion.id}:same-seed`));
+      const second = illusion.randomize(createRng(`${illusion.id}:same-seed`));
+      const third = illusion.randomize(createRng(`${illusion.id}:other-seed`));
 
-    expect(first).toEqual(second);
-    expect(first).not.toEqual(third);
+      expect(first).toEqual(second);
+      expect(first).not.toEqual(third);
+    }
   });
 
   it('round-trips language, illusion, seed, and params through the URL', () => {

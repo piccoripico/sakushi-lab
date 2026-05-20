@@ -1,5 +1,32 @@
 import { expect, test, type Page } from '@playwright/test';
 
+const ILLUSION_IDS = [
+  'cafe-wall',
+  'hermann-grid',
+  'muller-lyer',
+  'ponzo',
+  'poggendorff',
+  'zollner',
+  'hering',
+  'wundt',
+  'vertical-horizontal',
+  'jastrow',
+  'ebbinghaus',
+  'delboeuf',
+  'sander-parallelogram',
+  'kanizsa-triangle',
+  'fraser-spiral',
+  'simultaneous-contrast',
+  'mach-bands',
+  'whites-illusion',
+  'cornsweet',
+  'moire-motion',
+  'peripheral-drift',
+  'ouchi-illusion',
+  'lilac-chaser',
+  'pinna-brelstaff'
+] as const;
+
 test.describe('Sakushi Lab', () => {
   test('starts in the browser language and draws a nonblank canvas', async ({ page }) => {
     await page.goto('/');
@@ -37,14 +64,40 @@ test.describe('Sakushi Lab', () => {
     );
   });
 
-  test('switches through all six illusions and keeps the canvas painted', async ({ page }) => {
+  test('switches through all 24 illusions and keeps the canvas painted', async ({ page }) => {
     await page.goto('/');
 
-    for (const id of ['cafe-wall', 'hermann-grid', 'muller-lyer', 'ebbinghaus', 'fraser-spiral', 'moire-motion']) {
+    for (const id of ILLUSION_IDS) {
       await page.getByTestId('illusion-select').selectOption(id);
       await page.waitForTimeout(120);
       expect(await canvasStats(page), id).toMatchObject({ nonBlank: true });
     }
+  });
+
+  test('groups the illusion select into the planned categories', async ({ page }) => {
+    await page.goto('/');
+
+    const groups = await page.getByTestId('illusion-select').evaluate((select) =>
+      Array.from(select.querySelectorAll('optgroup')).map((group) => ({
+        label: group.label,
+        values: Array.from(group.querySelectorAll('option')).map((option) => option.value)
+      }))
+    );
+
+    expect(groups).toEqual([
+      {
+        label: 'Geometry / form',
+        values: ILLUSION_IDS.slice(0, 15)
+      },
+      {
+        label: 'Color / brightness',
+        values: ILLUSION_IDS.slice(15, 19)
+      },
+      {
+        label: 'Motion',
+        values: ILLUSION_IDS.slice(19)
+      }
+    ]);
   });
 
   test('generates, changes the URL, and reproduces the same state from that URL', async ({ page }) => {
@@ -121,6 +174,7 @@ test.describe('Sakushi Lab', () => {
     await expect(page.getByTestId('share-url')).toHaveCount(0);
     await expect(page.getByTestId('export-menu').getByRole('button')).toHaveCount(3);
     await expect(page.getByTestId('export-menu').getByTestId('url-button')).toHaveCount(0);
+    await expect(page.getByTestId('webm-button')).toBeDisabled();
     await expect(page.getByTestId('share-menu')).toHaveCount(0);
     await expect(page.locator('#urlButton')).toHaveCount(0);
     await expect(page.locator('[data-i18n="share.title"]')).toHaveCount(0);
@@ -152,6 +206,11 @@ test.describe('Sakushi Lab', () => {
     await expect(page.getByTestId('status-text')).toHaveText('URL copied.');
     const copiedUrl = await page.evaluate(() => navigator.clipboard.readText());
     expect(copiedUrl).toContain('lang=en&i=cafe-wall&seed=');
+
+    for (const id of ['moire-motion', 'peripheral-drift', 'ouchi-illusion', 'lilac-chaser', 'pinna-brelstaff']) {
+      await page.getByTestId('illusion-select').selectOption(id);
+      await expect(page.getByTestId('webm-button')).toBeEnabled();
+    }
 
     await page.getByTestId('illusion-select').selectOption('moire-motion');
     const webm = page.waitForEvent('download');
@@ -220,6 +279,12 @@ test.describe('Sakushi Lab', () => {
       await expect(page.getByTestId('seed-panel').locator('summary')).not.toBeEmpty();
       await expect(page.locator('#controlsTitle')).not.toBeEmpty();
       await expect(page.getByTestId('illusion-description')).not.toBeEmpty();
+      const groupLabels = await page.getByTestId('illusion-select').evaluate((select) =>
+        Array.from(select.querySelectorAll('optgroup')).map((group) => group.label)
+      );
+      expect(groupLabels).toHaveLength(3);
+      expect(groupLabels.every((label) => label.length > 0)).toBe(true);
+      expect(groupLabels.join('\n')).not.toMatch(/[�縺譁郢]/);
       const bodyText = await page.locator('body').innerText();
       expect(bodyText).not.toMatch(/[�縺譁郢]/);
     }

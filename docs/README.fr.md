@@ -24,13 +24,34 @@ Les images et vidéos générées peuvent servir à l'apprentissage, aux démons
 
 ## Fonctionnalités
 
-- Six illusions visuelles :
-  - Café Wall
-  - Hermann / Scintillating Grid
-  - Müller-Lyer
-  - Ebbinghaus
-  - Fraser Spiral
-  - Moiré Motion Field
+- 24 illusions visuelles :
+  - Géométrie / forme :
+    - Café Wall : des tuiles décalées font paraître inclinées des lignes parallèles.
+    - Hermann / Scintillating Grid : les intersections du quadrillage créent des taches sombres fugitives.
+    - Müller-Lyer : des ailettes modifient la longueur perçue de lignes égales.
+    - Ponzo : des indices de perspective font paraître différentes des barres égales.
+    - Poggendorff : une bande masquante fait sembler décalée une diagonale.
+    - Zöllner : de petits traits croisés font paraître inclinées des lignes parallèles.
+    - Hering : des lignes rayonnantes courbent visuellement des parallèles vers l'extérieur.
+    - Wundt : des lignes convergentes courbent visuellement des parallèles vers l'intérieur.
+    - Verticale-horizontale : des lignes verticale et horizontale égales semblent inégales.
+    - Jastrow : des bandes courbes identiques semblent différentes quand elles sont décalées.
+    - Ebbinghaus : les cercles autour changent la taille perçue des centres égaux.
+    - Delboeuf : les anneaux autour changent la taille perçue de cercles égaux.
+    - Parallélogramme de Sander : des cadres inclinés déforment la longueur perçue.
+    - Triangle de Kanizsa : des formes évidées suggèrent un triangle non dessiné.
+    - Fraser Spiral : des arcs inclinés sur des cercles suggèrent une spirale.
+  - Couleur / luminosité :
+    - Contraste simultané : une même couleur change avec son entourage.
+    - Bandes de Mach : les bords de luminosité créent des franges claires et sombres.
+    - Illusion de White : des gris égaux semblent différents sur des rayures.
+    - Cornsweet : une fine bordure ombrée change la luminosité perçue.
+  - Mouvement :
+    - Moiré Motion Field : des rayures superposées créent des interférences mobiles.
+    - Dérive périphérique : des motifs répétés de contraste semblent dériver.
+    - Illusion d'Ouchi : un centre rayé semble glisser sur son arrière-plan.
+    - Chasseur lilas : un vide tournant produit une sensation d'image rémanente.
+    - Pinna-Brelstaff : des segments inclinés en anneaux semblent tourner.
 - Contrôles de paramètres générés depuis le schéma de chaque module d'illusion.
 - Contrôles optionnels de graine pour une génération reproductible.
 - Génération déterministe avec partage d'URL basé sur une graine.

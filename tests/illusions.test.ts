@@ -1,15 +1,33 @@
 import { describe, expect, it } from 'vitest';
-import { illusionIds, illusions } from '../src/illusions/registry';
+import { illusionGroups, illusionIds, illusions } from '../src/illusions/registry';
 
 describe('illusion registry', () => {
-  it('registers the six v1 illusions in display order', () => {
+  it('registers the 24 v0.2 illusions in display order', () => {
     expect(illusionIds).toEqual([
       'cafe-wall',
       'hermann-grid',
       'muller-lyer',
+      'ponzo',
+      'poggendorff',
+      'zollner',
+      'hering',
+      'wundt',
+      'vertical-horizontal',
+      'jastrow',
       'ebbinghaus',
+      'delboeuf',
+      'sander-parallelogram',
+      'kanizsa-triangle',
       'fraser-spiral',
-      'moire-motion'
+      'simultaneous-contrast',
+      'mach-bands',
+      'whites-illusion',
+      'cornsweet',
+      'moire-motion',
+      'peripheral-drift',
+      'ouchi-illusion',
+      'lilac-chaser',
+      'pinna-brelstaff'
     ]);
   });
 
@@ -23,8 +41,28 @@ describe('illusion registry', () => {
     }
   });
 
-  it('marks only motion field as animated in v1', () => {
-    expect(illusions.filter((illusion) => illusion.supportsAnimation).map((illusion) => illusion.id)).toEqual(['moire-motion']);
+  it('groups every illusion exactly once', () => {
+    expect(illusionGroups.map((group) => group.id)).toEqual(['geometry', 'colorBrightness', 'motion']);
+    expect(illusionGroups.map((group) => group.titleKey)).toEqual([
+      'category.geometry',
+      'category.colorBrightness',
+      'category.motion'
+    ]);
+
+    const groupedIds = illusionGroups.flatMap((group) => group.illusions.map((illusion) => illusion.id));
+    expect(groupedIds).toEqual(illusionIds);
+    expect(new Set(groupedIds).size).toBe(illusionIds.length);
+    expect(illusionGroups.map((group) => group.illusions.length)).toEqual([15, 4, 5]);
+  });
+
+  it('marks the v0.2 animated illusions', () => {
+    expect(illusions.filter((illusion) => illusion.supportsAnimation).map((illusion) => illusion.id)).toEqual([
+      'moire-motion',
+      'peripheral-drift',
+      'ouchi-illusion',
+      'lilac-chaser',
+      'pinna-brelstaff'
+    ]);
   });
 
   it('lets Müller-Lyer hide the guide line in SVG output', () => {
