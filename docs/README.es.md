@@ -1,4 +1,4 @@
-# Sakushi Lab
+﻿# Sakushi Lab
 
 Sakushi Lab es un laboratorio estático y multilingüe para explorar ilusiones visuales. Funciona completamente en el navegador con Vite, TypeScript vanilla, Canvas, exportación SVG y grabación WebM.
 
@@ -14,47 +14,45 @@ Sitio en línea: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 - [繁體中文](README.zh-Hant.md)
 - [한국어](README.ko.md)
 
-## Acerca De Las Ilusiones Visuales
+## Sobre Las Ilusiones Visuales
 
-Las ilusiones visuales son imágenes o patrones de movimiento que muestran cuánto depende la percepción del contexto. Líneas que físicamente son paralelas pueden parecer inclinadas, formas iguales pueden verse de tamaños distintos y patrones estáticos pueden parecer parpadear o moverse.
+Las ilusiones visuales son imágenes o patrones de movimiento que muestran cuánto depende la percepción del contexto. Líneas físicamente paralelas pueden parecer inclinadas, formas iguales pueden verse de tamaños distintos y patrones estáticos pueden parecer vibrar o moverse.
 
-Estos efectos no son simplemente « errores » de la visión. Muestran cómo el sistema visual estima brillo, contraste, profundidad, dirección, tamaño y movimiento a partir de la información que los rodea. Sakushi Lab permite cambiar las condiciones de cada ilusión y observar cómo esos cambios hacen que el efecto sea más fuerte, más débil o más fácil de notar.
+Estos efectos no son simples "errores" de la vista. Muestran cómo el sistema visual estima brillo, contraste, profundidad, dirección, tamaño y movimiento a partir de la información que lo rodea. Sakushi Lab permite cambiar las condiciones de cada ilusión y observar cómo el efecto se vuelve más fuerte, más débil o más fácil de notar.
 
-Las imágenes y videos generados son útiles para aprendizaje, demostraciones, experimentos de diseño y exploración casual. Algunas ilusiones con movimiento pueden sentirse intensas; toma un descanso si una animación resulta incómoda.
+Las imágenes y videos generados sirven para aprendizaje, demostraciones, experimentos de diseño y exploración casual. Algunas ilusiones con movimiento pueden sentirse intensas, así que toma un descanso si una animación resulta incómoda.
 
 ## Funciones
 
-- 24 ilusiones visuales:
-  - Geometría / forma:
-    - Café Wall: los mosaicos desplazados hacen que líneas paralelas parezcan inclinadas.
-    - Hermann / Scintillating Grid: las intersecciones de la cuadrícula crean manchas oscuras fugaces.
-    - Müller-Lyer: las aletas cambian la longitud percibida de líneas iguales.
-    - Ponzo: las pistas de perspectiva hacen que barras iguales parezcan distintas.
-    - Poggendorff: una banda que oculta hace que una diagonal parezca desplazada.
-    - Zöllner: trazos cruzados hacen que líneas paralelas parezcan inclinarse.
-    - Hering: líneas radiantes curvan visualmente paralelas hacia fuera.
-    - Wundt: líneas convergentes curvan visualmente paralelas hacia dentro.
-    - Vertical-horizontal: líneas verticales y horizontales iguales parecen desiguales.
-    - Jastrow: bandas curvas idénticas parecen distintas al desplazarse.
-    - Ebbinghaus: los círculos alrededor cambian el tamaño percibido de centros iguales.
-    - Delboeuf: los anillos alrededor cambian el tamaño percibido de círculos iguales.
-    - Paralelogramo de Sander: marcos inclinados distorsionan la longitud percibida.
-    - Triángulo de Kanizsa: formas recortadas sugieren un triángulo no dibujado.
-    - Fraser Spiral: arcos inclinados sobre círculos sugieren una espiral.
-  - Color / brillo:
-    - Contraste simultáneo: un mismo color cambia según lo que lo rodea.
-    - Bandas de Mach: los bordes de brillo crean franjas claras y oscuras.
-    - Ilusión de White: grises iguales parecen distintos sobre rayas.
-    - Cornsweet: un borde sombreado fino cambia el brillo percibido.
-  - Movimiento:
-    - Moiré Motion Field: rayas superpuestas crean interferencias móviles.
-    - Deriva periférica: patrones repetidos de contraste parecen desplazarse.
-    - Ilusión de Ouchi: un centro rayado parece deslizarse sobre el fondo.
-    - Perseguidor lila: un hueco giratorio crea una sensación de postimagen.
-    - Pinna-Brelstaff: segmentos inclinados en anillos parecen rotar.
+- 18 ilusiones visuales:
+  - Imágenes estáticas
+    - Geometría / forma:
+      - Café Wall: baldosas desplazadas hacen que líneas paralelas parezcan inclinadas.
+      - Cuadrícula de Hermann: las intersecciones de la cuadrícula crean manchas oscuras fugaces.
+      - Müller-Lyer: las aletas cambian la longitud percibida de líneas iguales.
+      - Ponzo: las claves de perspectiva hacen que barras iguales parezcan distintas.
+      - Poggendorff: una banda que oculta hace que una diagonal parezca desplazada.
+      - Zöllner: trazos cruzados hacen que líneas paralelas parezcan inclinarse.
+      - Hering: líneas radiales hacen que paralelas rectas parezcan curvarse hacia afuera.
+      - Vertical-Horizontal: segmentos verticales y horizontales iguales se sienten desiguales.
+      - Ebbinghaus: los círculos circundantes cambian el tamaño percibido de centros iguales.
+      - Delboeuf: los anillos circundantes cambian el tamaño percibido de círculos iguales.
+      - Paralelogramo de Sander: marcos inclinados distorsionan la longitud percibida.
+      - Triángulo de Kanizsa: discos recortados y esquinas sugieren un triángulo que no está dibujado.
+    - Figura / fondo:
+      - Jarrón de Rubin: un jarrón y dos perfiles faciales compiten como figura y fondo.
+    - Color / brillo:
+      - Contraste simultáneo: colores idénticos cambian con su entorno.
+      - Ilusión de White: grises iguales parecen distintos sobre rayas.
+      - Cornsweet: un borde sombreado estrecho cambia el brillo percibido.
+  - Videos
+    - Movimiento / patrones de posimagen:
+      - Lilac Chaser: un hueco giratorio produce una sensación de posimagen móvil.
+    - Profundidad reversible:
+      - Cubo de Necker giratorio: el movimiento hace que el cubo cambie de profundidad.
 - Controles de parámetros generados desde el esquema de cada módulo de ilusión.
 - Controles opcionales de semilla para generación reproducible.
-- Generación determinista con URL compartible basada en semilla.
+- Generación determinista con URL compartibles basadas en semilla.
 - Exportación PNG, SVG, WebM y URL reproducible.
 - Idiomas de la interfaz: inglés, francés, español, alemán, japonés, chino simplificado, chino tradicional y coreano.
 
@@ -69,9 +67,9 @@ Scripts útiles:
 
 - `npm.cmd run dev`: inicia el servidor de desarrollo de Vite.
 - `npm.cmd test`: ejecuta las pruebas unitarias.
-- `npm.cmd run build`: comprueba tipos y construye `dist/`.
+- `npm.cmd run build`: verifica tipos y construye `dist/`.
 - `npm.cmd run test:e2e`: ejecuta las pruebas de Playwright.
 
 ## GitHub Pages
 
-El workflow en `.github/workflows/pages.yml` construye y sube `dist/` como artefacto de Pages cuando hay push a `main` o ejecución manual.
+El workflow de `.github/workflows/pages.yml` construye y sube `dist/` como artefacto de Pages al hacer push a `main` o al ejecutarse manualmente.

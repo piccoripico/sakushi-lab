@@ -1,8 +1,8 @@
-# Sakushi Lab
+﻿# Sakushi Lab
 
-Sakushi Lab ist ein statisches, mehrsprachiges Experimentierfeld für visuelle Illusionen. Es läuft vollständig im Browser mit Vite, Vanilla TypeScript, Canvas, SVG-Export und WebM-Aufzeichnung.
+Sakushi Lab ist ein statischer, mehrsprachiger Spielplatz für visuelle Illusionen. Die App läuft vollständig im Browser mit Vite, Vanilla TypeScript, Canvas, SVG-Export und WebM-Aufnahme.
 
-Live-Seite: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
+Live-Site: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 
 ## Mehrsprachige Dokumente
 
@@ -16,47 +16,46 @@ Live-Seite: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 
 ## Über Visuelle Illusionen
 
-Visuelle Illusionen sind Bilder oder Bewegungsmuster, die zeigen, wie stark Wahrnehmung vom Kontext abhängt. Physisch parallele Linien können geneigt erscheinen, gleiche Formen können unterschiedlich groß wirken, und unbewegte Muster können zu flimmern oder sich zu bewegen scheinen.
+Visuelle Illusionen sind Bilder oder Bewegungsmuster, die zeigen, wie stark Wahrnehmung vom Kontext abhängt. Physikalisch parallele Linien können geneigt erscheinen, gleiche Formen können unterschiedlich groß wirken, und unbewegte Muster können flimmern oder sich zu bewegen scheinen.
 
-Diese Effekte sind nicht einfach „Fehler“ des Sehens. Sie zeigen, wie das visuelle System Helligkeit, Kontrast, Tiefe, Richtung, Größe und Bewegung aus umgebenden Informationen schätzt. Mit Sakushi Lab können die Bedingungen jeder Illusion verändert werden, um zu sehen, wie der Effekt stärker, schwächer oder leichter bemerkbar wird.
+Diese Effekte sind nicht einfach "Fehler" des Sehens. Sie zeigen, wie das visuelle System Helligkeit, Kontrast, Tiefe, Richtung, Größe und Bewegung aus umgebenden Informationen schätzt. Mit Sakushi Lab lassen sich die Bedingungen jeder Illusion verändern, um zu sehen, wann der Effekt stärker, schwächer oder leichter bemerkbar wird.
 
-Die erzeugten Bilder und Videos eignen sich für Lernen, Demonstrationen, Designexperimente und neugieriges Erkunden. Einige bewegte Illusionen können intensiv wirken; machen Sie eine Pause, wenn eine Animation unangenehm wird.
+Die erzeugten Bilder und Videos eignen sich für Lernen, Demonstrationen, Designexperimente und neugieriges Erkunden. Einige Bewegungsillusionen können intensiv wirken; machen Sie eine Pause, wenn eine Animation unangenehm wird.
 
 ## Funktionen
 
-- 24 visuelle Illusionen:
-  - Geometrie / Form:
-    - Café Wall: versetzte Kacheln lassen parallele Linien geneigt wirken.
-    - Hermann / Scintillating Grid: Rasterkreuzungen erzeugen flüchtige dunkle Flecken.
-    - Müller-Lyer: Pfeilflügel verändern die wahrgenommene Länge gleicher Linien.
-    - Ponzo: Perspektivhinweise lassen gleiche Balken verschieden wirken.
-    - Poggendorff: ein verdeckender Balken lässt eine Diagonale versetzt erscheinen.
-    - Zöllner: Querstriche lassen parallele Linien geneigt wirken.
-    - Hering: Strahlenlinien biegen parallele Geraden scheinbar nach außen.
-    - Wundt: zusammenlaufende Linien biegen parallele Geraden scheinbar nach innen.
-    - Vertikal-horizontal: gleiche vertikale und horizontale Linien wirken ungleich.
-    - Jastrow: identische gebogene Bänder wirken versetzt verschieden.
-    - Ebbinghaus: umgebende Kreise verändern die wahrgenommene Größe gleicher Zentren.
-    - Delboeuf: umgebende Ringe verändern die wahrgenommene Größe gleicher Kreise.
-    - Sander-Parallelogramm: schräge Rahmen verzerren die wahrgenommene Linienlänge.
-    - Kanizsa-Dreieck: ausgesparte Formen deuten ein nicht gezeichnetes Dreieck an.
-    - Fraser Spiral: geneigte Bögen auf Kreisen suggerieren eine Spirale.
-  - Farbe / Helligkeit:
-    - Simultankontrast: dieselbe Farbe verändert sich durch ihre Umgebung.
-    - Mach-Bänder: Helligkeitskanten erzeugen helle und dunkle Säume.
-    - White-Illusion: gleiche Grautöne wirken auf Streifen verschieden.
-    - Cornsweet: eine schmale Schattenkante verändert die wahrgenommene Helligkeit.
-  - Bewegung:
-    - Moiré Motion Field: überlagerte Streifen erzeugen bewegte Interferenzen.
-    - Periphere Drift: wiederholte Kontrastmuster scheinen zu driften.
-    - Ouchi-Illusion: ein gestreiftes Zentrum scheint über den Hintergrund zu gleiten.
-    - Lila Verfolger: eine rotierende Lücke erzeugt eine Nachbild-Empfindung.
-    - Pinna-Brelstaff: geneigte Ringsegmente scheinen zu rotieren.
-- Parametersteuerungen, die aus dem Schema jedes Illusionsmoduls erzeugt werden.
-- Optionale Seed-Steuerung für reproduzierbare Generierung.
-- Deterministische Generierung mit Seed-basierter URL-Freigabe.
+- 18 visuelle Illusionen:
+  - Statische Bilder
+    - Geometrie / Form:
+      - Café Wall: versetzte Kacheln lassen parallele Linien geneigt erscheinen.
+      - Hermann-Gitter: Gitterkreuzungen erzeugen flüchtige dunkle Flecken.
+      - Müller-Lyer: Pfeilflügel verändern die wahrgenommene Länge gleicher Linien.
+      - Ponzo: Perspektivhinweise lassen gleiche Balken unterschiedlich wirken.
+      - Poggendorff: ein verdeckender Streifen lässt eine Diagonale versetzt erscheinen.
+      - Zöllner: kreuzende Kurzstriche lassen Parallelen geneigt erscheinen.
+      - Hering: strahlenförmige Linien lassen gerade Parallelen nach außen gebogen wirken.
+      - Vertikal-Horizontal: gleiche vertikale und horizontale Linien wirken ungleich.
+      - Ebbinghaus: umgebende Kreise verändern die wahrgenommene Größe gleicher Zentren.
+      - Delboeuf: umgebende Ringe verändern die wahrgenommene Größe gleicher Kreise.
+      - Sander-Parallelogramm: schräge Rahmen verzerren die wahrgenommene Linienlänge.
+      - Kanizsa-Dreieck: ausgesparte Scheiben und Eckformen deuten ein nicht gezeichnetes Dreieck an.
+    - Figur / Grund:
+      - Rubins Vase: eine Vase und zwei Gesichtsprofile konkurrieren als Figur und Grund.
+    - Farbe / Helligkeit:
+      - Simultankontrast: identische Farben ändern sich durch ihre Umgebung.
+      - White-Illusion: gleiche Grautöne wirken auf Streifen verschieden.
+      - Cornsweet: eine schmale Schattenkante verändert die wahrgenommene Helligkeit.
+  - Videos
+    - Bewegung / Nachbilder:
+      - Lilac Chaser: eine rotierende Lücke erzeugt ein bewegtes Nachbildgefühl.
+    - Umkehrbare Tiefe:
+      - Hohle Maske: Hinweise eines konkaven Gesichts können als vorspringendes Gesicht erscheinen.
+      - Rotierender Necker-Würfel: Bewegung lässt den Drahtwürfel in der Tiefe kippen.
+- Parametersteuerungen werden aus dem Schema jedes Illusionsmoduls erzeugt.
+- Optionale Seed-Steuerung für reproduzierbare Erzeugung.
+- Deterministische Erzeugung mit seedbasierter URL-Freigabe.
 - Export als PNG, SVG, WebM und reproduzierbare URL.
-- UI-Sprachen: Englisch, Französisch, Spanisch, Deutsch, Japanisch, vereinfachtes Chinesisch, traditionelles Chinesisch und Koreanisch.
+- UI-Sprachen: Englisch, Französisch, Spanisch, Deutsch, Japanisch, Vereinfachtes Chinesisch, Traditionelles Chinesisch und Koreanisch.
 
 ## Entwicklung
 
@@ -74,4 +73,4 @@ Nützliche Skripte:
 
 ## GitHub Pages
 
-Der Workflow in `.github/workflows/pages.yml` baut `dist/` und lädt es bei Pushes nach `main` oder manueller Ausführung als Pages-Artefakt hoch.
+Der Workflow in `.github/workflows/pages.yml` baut `dist/` und lädt es bei Pushes auf `main` oder manuellem Start als Pages-Artefakt hoch.

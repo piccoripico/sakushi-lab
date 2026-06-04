@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { illusions } from '../src/illusions/registry';
 import { createRng } from '../src/rng';
 import { encodeParams, readStateFromUrl, stateToSearch } from '../src/state';
+import type { RangeParam } from '../src/types';
 
 describe('seeded randomization and URL state', () => {
   it('uses deterministic seeded random values', () => {
@@ -63,7 +64,9 @@ describe('seeded randomization and URL state', () => {
     const search = `?lang=en&i=cafe-wall&seed=x&p=${encodeParams({ rows: 999, columns: 'old' })}`;
     const decoded = readStateFromUrl(search, ['en-US']);
 
-    expect(decoded.params.rows).toBe(24);
+    const rowsControl = illusions[0].paramSchema.find((control): control is RangeParam => control.key === 'rows' && control.kind === 'range');
+    expect(rowsControl).toBeDefined();
+    expect(decoded.params.rows).toBe(rowsControl!.max);
     expect(decoded.params.columns).toBe(illusions[0].defaultParams.columns);
   });
 

@@ -1,12 +1,15 @@
 import { colorParam, defaults, rangeParam, toggleParam } from './common';
-import { canvasLine, renderScaled, svgPolygon } from './v02Helpers';
+import { drawGuideSegments, measurementGridSegments, svgGuideSegments } from './guideHelpers';
+import { canvasLine, mixHex, renderScaled, svgPolygon } from './v02Helpers';
 import { svgDocument, svgLine } from '../svg';
-import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition } from '../types';
+import { paramBoolean, paramColor, paramNumber, type IllusionDefinition, type ParamValues } from '../types';
 
 const schema = [
-  rangeParam('angle', 'param.angle', 18, 48, 1, 30, '°'),
-  rangeParam('separation', 'param.separation', 180, 420, 10, 280, 'px'),
-  rangeParam('lineWidth', 'param.lineWidth', 5, 26, 1, 12, 'px'),
+  rangeParam('angle', 'param.angle', 8, 60, 1, 30, 'deg'),
+  rangeParam('separation', 'param.separation', 100, 520, 10, 280, 'px'),
+  rangeParam('lineWidth', 'param.lineWidth', 2, 34, 1, 12, 'px'),
+  toggleParam('showContext', 'param.showContext', true),
+  toggleParam('showTargets', 'param.showTargets', true),
   toggleParam('showGuide', 'param.showGuide', false),
   colorParam('background', 'param.background', '#f8fafc'),
   colorParam('foreground', 'param.foreground', '#111827'),
@@ -25,6 +28,8 @@ export const sanderParallelogram: IllusionDefinition = {
     angle: rng.int(22, 42),
     separation: rng.int(220, 360),
     lineWidth: rng.int(8, 20),
+    showContext: rng.next() > 0.12,
+    showTargets: true,
     showGuide: rng.next() > 0.65,
     background: rng.pick(['#f8fafc', '#fff7ed', '#eef2ff']),
     foreground: rng.pick(['#111827', '#172554', '#3f1d1d']),
@@ -32,49 +37,106 @@ export const sanderParallelogram: IllusionDefinition = {
   }),
   renderCanvas: (ctx, params) => {
     renderScaled(ctx, paramColor(params, 'background'), (scaled) => {
-      const { outline, segments } = geometry(params);
-      scaled.strokeStyle = paramColor(params, 'foreground');
-      scaled.lineWidth = paramNumber(params, 'lineWidth');
-      scaled.lineJoin = 'round';
-      scaled.beginPath();
-      outline.forEach(([x, y], index) => (index === 0 ? scaled.moveTo(x, y) : scaled.lineTo(x, y)));
-      scaled.closePath();
-      scaled.stroke();
-      for (const segment of segments) {
-        canvasLine(scaled, ...segment);
+      const { frames, targets, guides } = geometry(params);
+
+      if (paramBoolean(params, 'showContext')) {
+        for (const frame of frames) {
+          drawPolygon(scaled, frame.points, frame.fill, frame.stroke, frame.width);
+        }
+      }
+
+      if (paramBoolean(params, 'showTargets')) {
+        for (const target of targets) {
+          canvasLine(scaled, ...target);
+        }
+      }
+
+      if (paramBoolean(params, 'showGuide')) {
+        drawGuideSegments(scaled, guides);
       }
     });
   },
   renderSvg: (params) => {
-    const { outline, segments } = geometry(params);
+    const { frames, targets, guides } = geometry(params);
     return svgDocument([
-      svgPolygon(outline, 'none', paramColor(params, 'foreground'), paramNumber(params, 'lineWidth')),
-      ...segments.map((segment) => svgLine(...segment))
+      ...(paramBoolean(params, 'showContext')
+        ? frames.map((frame) => svgPolygon(frame.points, frame.fill, frame.stroke, frame.width))
+        : []),
+      ...(paramBoolean(params, 'showTargets')
+        ? targets.map((target) => svgLine(...target))
+        : []),
+      ...(paramBoolean(params, 'showGuide')
+        ? svgGuideSegments(guides)
+        : [])
     ].join(''), paramColor(params, 'background'));
   }
 };
 
-function geometry(params: Record<string, unknown>) {
-  const angle = (Number(params.angle) * Math.PI) / 180;
-  const shear = Math.cos(angle) * 300;
-  const sep = Number(params.separation);
-  const width = Number(params.lineWidth);
-  const foreground = String(params.foreground);
-  const accent = String(params.accentColor);
-  const outline: [number, number][] = [
-    [260, 1180],
-    [820, 1180],
-    [1340, 420],
-    [780, 420]
+type Point = [number, number];
+type CanvasSegment = [number, number, number, number, string, number];
+
+function drawPolygon(ctx: CanvasRenderingContext2D, points: readonly Point[], fill: string, stroke: string, width: number): void {
+  ctx.beginPath();
+  points.forEach(([x, y], index) => (index === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y)));
+  ctx.closePath();
+  ctx.fillStyle = fill;
+  ctx.fill();
+  ctx.strokeStyle = stroke;
+  ctx.lineWidth = width;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+}
+
+function geometry(params: ParamValues) {
+  const angle = ((38 + paramNumber(params, 'angle') * 0.45) * Math.PI) / 180;
+  const separation = paramNumber(params, 'separation');
+  const width = paramNumber(params, 'lineWidth');
+  const background = paramColor(params, 'background');
+  const foreground = paramColor(params, 'foreground');
+  const accent = paramColor(params, 'accentColor');
+  const lineLength = 520;
+  const dx = Math.cos(angle) * lineLength;
+  const dy = Math.sin(angle) * lineLength;
+  const spacingShift = (separation - 280) * 0.12;
+  const leftStart: Point = [430 - spacingShift, 1050];
+  const rightStart: Point = [910 + spacingShift, 1050];
+  const leftBase = 540 + (separation - 280) * 0.18;
+  const rightBase = 255 - (separation - 280) * 0.06;
+  const leftEnd: Point = [leftStart[0] + dx, leftStart[1] - dy];
+  const rightEnd: Point = [rightStart[0] + dx, rightStart[1] - dy];
+  const frameStroke = mixHex(foreground, background, 0.18);
+  const frameWidth = Math.max(2, width * 0.85);
+  const targetWidth = width * 1.8;
+  const targets: CanvasSegment[] = [
+    [leftStart[0], leftStart[1], leftEnd[0], leftEnd[1], accent, targetWidth],
+    [rightStart[0], rightStart[1], rightEnd[0], rightEnd[1], accent, targetWidth]
   ];
-  const left: [number, number, number, number, string, number] = [395, 1080, 395 + shear, 520, accent, width * 1.4];
-  const right: [number, number, number, number, string, number] = [770 + sep, 1080, 770 + sep + shear, 520, accent, width * 1.4];
-  const segments = [left, right];
 
-  if (params.showGuide === true) {
-    segments.push([left[0], left[1], right[0], right[1], foreground, Math.max(2, width * 0.35)]);
-    segments.push([left[2], left[3], right[2], right[3], foreground, Math.max(2, width * 0.35)]);
-  }
+  return {
+    frames: [
+      {
+        points: frame(leftStart, leftEnd, leftBase),
+        fill: mixHex(background, accent, 0.08),
+        stroke: frameStroke,
+        width: frameWidth
+      },
+      {
+        points: frame(rightStart, rightEnd, rightBase),
+        fill: mixHex(background, foreground, 0.04),
+        stroke: frameStroke,
+        width: frameWidth
+      }
+    ],
+    targets,
+    guides: measurementGridSegments(params)
+  };
+}
 
-  return { outline, segments };
+function frame(start: Point, end: Point, base: number): Point[] {
+  return [
+    start,
+    [start[0] + base, start[1]],
+    end,
+    [end[0] - base, end[1]]
+  ];
 }

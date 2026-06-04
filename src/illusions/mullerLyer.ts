@@ -1,17 +1,18 @@
 import { colorParam, defaults, fill, polar, rangeParam, toggleParam } from './common';
+import { drawGuideSegments, measurementGridSegments, svgGuideSegments } from './guideHelpers';
 import { svgDocument, svgLine } from '../svg';
 import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition, type ParamValues } from '../types';
 
 const schema = [
-  rangeParam('arrowLength', 'param.arrowLength', 520, 1080, 10, 780, 'px'),
-  rangeParam('finLength', 'param.finLength', 80, 260, 5, 160, 'px'),
-  rangeParam('finAngle', 'param.finAngle', 18, 58, 1, 34, '°'),
-  rangeParam('lineWidth', 'param.lineWidth', 8, 34, 1, 17, 'px'),
-  rangeParam('separation', 'param.separation', 260, 560, 10, 380, 'px'),
-  toggleParam('showGuide', 'param.showGuide', true),
+  rangeParam('arrowLength', 'param.arrowLength', 420, 1180, 10, 780, 'px'),
+  rangeParam('finLength', 'param.finLength', 40, 320, 5, 160, 'px'),
+  rangeParam('finAngle', 'param.finAngle', 5, 75, 1, 34, '°'),
+  rangeParam('lineWidth', 'param.lineWidth', 4, 42, 1, 17, 'px'),
+  rangeParam('separation', 'param.separation', 180, 650, 10, 380, 'px'),
+  toggleParam('showGuide', 'param.showGuide', false),
   colorParam('background', 'param.background', '#f8fafc'),
   colorParam('foreground', 'param.foreground', '#111827'),
-  colorParam('accentColor', 'param.accentColor', '#0f766e')
+  colorParam('accentColor', 'param.guideColor', '#0f766e')
 ] as const;
 
 export const mullerLyer: IllusionDefinition = {
@@ -38,6 +39,12 @@ export const mullerLyer: IllusionDefinition = {
     const height = ctx.canvas.height;
     const scale = width / EXPORT_SIZE;
     fill(ctx, paramColor(params, 'background'));
+    if (paramBoolean(params, 'showGuide')) {
+      ctx.save();
+      ctx.scale(scale, scale);
+      drawGuideSegments(ctx, measurementGridSegments(params));
+      ctx.restore();
+    }
     drawFigure(ctx, params, width / 2, height / 2 - paramNumber(params, 'separation') * scale / 2, true, scale);
     drawFigure(ctx, params, width / 2, height / 2 + paramNumber(params, 'separation') * scale / 2, false, scale);
   },
@@ -47,7 +54,8 @@ export const mullerLyer: IllusionDefinition = {
     const separation = paramNumber(params, 'separation');
     const upper = svgFigure(params, cx, cy - separation / 2, true);
     const lower = svgFigure(params, cx, cy + separation / 2, false);
-    return svgDocument(`${upper}${lower}`, paramColor(params, 'background'));
+    const guides = paramBoolean(params, 'showGuide') ? svgGuideSegments(measurementGridSegments(params)).join('') : '';
+    return svgDocument(`${guides}${upper}${lower}`, paramColor(params, 'background'));
   }
 };
 
@@ -76,14 +84,6 @@ function drawFigure(
   ctx.stroke();
   drawFins(ctx, x1, cy, inward ? 0 : Math.PI, finLength, angle);
   drawFins(ctx, x2, cy, inward ? Math.PI : 0, finLength, angle);
-  if (paramBoolean(params, 'showGuide')) {
-    ctx.strokeStyle = paramColor(params, 'accentColor');
-    ctx.lineWidth = Math.max(2, paramNumber(params, 'lineWidth') * scale * 0.28);
-    ctx.beginPath();
-    ctx.moveTo(x1, cy + 38 * scale);
-    ctx.lineTo(x2, cy + 38 * scale);
-    ctx.stroke();
-  }
   ctx.restore();
 }
 
@@ -105,12 +105,10 @@ function svgFigure(params: ParamValues, cx: number, cy: number, inward: boolean)
   const x2 = cx + length / 2;
   const width = paramNumber(params, 'lineWidth');
   const stroke = paramColor(params, 'foreground');
-  const parts = [svgLine(x1, cy, x2, cy, stroke, width)];
+  const parts: string[] = [];
+  parts.push(svgLine(x1, cy, x2, cy, stroke, width));
   parts.push(...svgFins(x1, cy, inward ? 0 : Math.PI, finLength, angle, stroke, width));
   parts.push(...svgFins(x2, cy, inward ? Math.PI : 0, finLength, angle, stroke, width));
-  if (paramBoolean(params, 'showGuide')) {
-    parts.push(svgLine(x1, cy + 38, x2, cy + 38, paramColor(params, 'accentColor'), Math.max(2, width * 0.28)));
-  }
   return parts.join('');
 }
 

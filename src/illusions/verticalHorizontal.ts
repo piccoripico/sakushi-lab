@@ -1,16 +1,17 @@
 import { colorParam, defaults, rangeParam, toggleParam } from './common';
+import { measurementGridSegments } from './guideHelpers';
 import { canvasLine, renderScaled } from './v02Helpers';
 import { svgDocument, svgLine } from '../svg';
-import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition } from '../types';
+import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition, type ParamValues } from '../types';
 
 const schema = [
-  rangeParam('arrowLength', 'param.arrowLength', 420, 1000, 10, 720, 'px'),
-  rangeParam('lineWidth', 'param.lineWidth', 6, 34, 1, 16, 'px'),
-  rangeParam('gap', 'param.gap', 80, 240, 10, 130, 'px'),
-  toggleParam('showGuide', 'param.showGuide', true),
+  rangeParam('arrowLength', 'param.arrowLength', 260, 1120, 10, 720, 'px'),
+  rangeParam('lineWidth', 'param.lineWidth', 3, 42, 1, 16, 'px'),
+  rangeParam('gap', 'param.gap', 20, 320, 10, 130, 'px'),
+  toggleParam('showGuide', 'param.showGuide', false),
   colorParam('background', 'param.background', '#f8fafc'),
   colorParam('foreground', 'param.foreground', '#111827'),
-  colorParam('accentColor', 'param.accentColor', '#0f766e')
+  colorParam('accentColor', 'param.guideColor', '#0f766e')
 ] as const;
 
 export const verticalHorizontal: IllusionDefinition = {
@@ -34,29 +35,43 @@ export const verticalHorizontal: IllusionDefinition = {
     renderScaled(ctx, paramColor(params, 'background'), (scaled) => {
       const geometry = lines(params);
       for (const line of geometry) {
-        canvasLine(scaled, ...line);
+        drawLine(scaled, line);
       }
     });
   },
   renderSvg: (params) => svgDocument(lines(params).map((line) => svgLine(...line)).join(''), paramColor(params, 'background'))
 };
 
-function lines(params: Record<string, unknown>): [number, number, number, number, string, number][] {
-  const length = Number(params.arrowLength);
-  const gap = Number(params.gap);
-  const width = Number(params.lineWidth);
-  const foreground = String(params.foreground);
-  const accent = String(params.accentColor);
+type Segment = [number, number, number, number, string, number, string?];
+
+function drawLine(ctx: CanvasRenderingContext2D, line: Segment): void {
+  const [x1, y1, x2, y2, color, width, extra] = line;
+
+  if (extra?.includes('stroke-dasharray')) {
+    ctx.save();
+    ctx.setLineDash([24, 18]);
+    canvasLine(ctx, x1, y1, x2, y2, color, width);
+    ctx.restore();
+    return;
+  }
+
+  canvasLine(ctx, x1, y1, x2, y2, color, width);
+}
+
+function lines(params: ParamValues): Segment[] {
+  const length = paramNumber(params, 'arrowLength');
+  const gap = paramNumber(params, 'gap');
+  const width = paramNumber(params, 'lineWidth');
+  const foreground = paramColor(params, 'foreground');
   const centerX = EXPORT_SIZE / 2;
   const centerY = EXPORT_SIZE / 2 + gap;
-  const result: [number, number, number, number, string, number][] = [
+  const left = centerX - length / 2;
+  const right = centerX + length / 2;
+  const result: Segment[] = [
+    ...(paramBoolean(params, 'showGuide') ? measurementGridSegments(params) : []),
     [centerX, centerY, centerX, centerY - length, foreground, width],
-    [centerX - length / 2, centerY, centerX + length / 2, centerY, foreground, width]
+    [left, centerY, right, centerY, foreground, width]
   ];
-
-  if (params.showGuide === true) {
-    result.push([centerX - length / 2, centerY - length, centerX + length / 2, centerY - length, accent, Math.max(2, width * 0.35)]);
-  }
 
   return result;
 }

@@ -40,7 +40,25 @@ describe('i18n', () => {
     expect(Object.hasOwn(translations.en, 'info.shareLabel')).toBe(false);
     expect(Object.hasOwn(translations.en, 'export.url')).toBe(false);
     expect(Object.hasOwn(translations.en, 'share.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'footer.about')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'info.tryParameters')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'info.tryAnimationParameters')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'category.perspectiveDepth')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'category.impossibleFigures')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'category.ambiguousFigures')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'category.apparentMotion')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.railway-perspective.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.optic-flow-tunnel.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.fraser-spiral.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.penrose-triangle.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.impossible-cube.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.moire-motion.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.rotating-ames-window.title')).toBe(false);
+    expect(Object.hasOwn(translations.en, 'illusion.checker-shadow.title')).toBe(false);
     expect(translations.en['app.title']).toBe('Sakushi Lab');
+    expect(translations.en['controls.media']).toBe('Media');
+    expect(translations.en['media.static']).toBe('Static images');
+    expect(translations.en['media.video']).toBe('Videos');
     expect(translations.en['actions.generate']).toBe('Generate');
     expect(translations.en['stateCopy.title']).toBe('Reproducible and shareable URL');
     expect(translations.en['stateCopy.copy']).toBe('Copy URL');
@@ -48,6 +66,25 @@ describe('i18n', () => {
     expect(translations.en['app.description']).toContain('Explore');
     expect(translations.ja['app.description']).toContain('錯視の起こりやすさ');
     expect(translations.ja['footer.description']).toContain('Sakushi Labは');
+  });
+
+  it('uses detailed multi-paragraph UI descriptions for every illusion', () => {
+    const descriptionKeys = Object.keys(translations.en).filter(
+      (key) => key.startsWith('illusion.') && key.endsWith('.description')
+    );
+
+    expect(descriptionKeys).toHaveLength(18);
+
+    for (const language of SUPPORTED_LANGUAGES) {
+      for (const key of descriptionKeys) {
+        const text = translations[language][key as keyof typeof translations.en];
+        const paragraphs = text.split(/\n{2,}/).map((paragraph) => paragraph.trim()).filter(Boolean);
+
+        expect(text, `${language}.${key}`).not.toContain('{params}');
+        expect(paragraphs.length, `${language}.${key}`).toBeGreaterThanOrEqual(3);
+        expect(paragraphs.every((paragraph) => paragraph.length > 12), `${language}.${key}`).toBe(true);
+      }
+    }
   });
 
   it('translates parameter labels for Simplified Chinese, Traditional Chinese, and Korean', () => {

@@ -1,16 +1,19 @@
-import { colorParam, defaults, fill, rangeParam } from './common';
+import { colorParam, defaults, fill, rangeParam, toggleParam } from './common';
+import { drawGuideSegments, measurementGridSegments, svgGuideSegments } from './guideHelpers';
 import { svgDocument, svgRect } from '../svg';
-import { EXPORT_SIZE, paramColor, paramNumber, type IllusionDefinition } from '../types';
+import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition } from '../types';
 
 const schema = [
-  rangeParam('rows', 'param.rows', 6, 24, 1, 14),
-  rangeParam('columns', 'param.columns', 6, 28, 1, 16),
-  rangeParam('mortar', 'param.mortar', 2, 20, 1, 7, 'px'),
-  rangeParam('offset', 'param.offset', 0.15, 0.85, 0.01, 0.5),
-  rangeParam('contrast', 'param.contrast', 0.25, 1, 0.01, 0.86),
+  rangeParam('rows', 'param.rows', 4, 32, 1, 14),
+  rangeParam('columns', 'param.columns', 4, 36, 1, 16),
+  rangeParam('mortar', 'param.mortar', 1, 28, 1, 7, 'px'),
+  rangeParam('offset', 'param.offset', 0, 1, 0.01, 0.5),
+  rangeParam('contrast', 'param.contrast', 0.1, 1, 0.01, 0.86),
+  toggleParam('showGuide', 'param.showGuide', false),
   colorParam('background', 'param.background', '#d9e1e6'),
   colorParam('tileLight', 'param.tileLight', '#f8fafc'),
-  colorParam('tileDark', 'param.tileDark', '#111827')
+  colorParam('tileDark', 'param.tileDark', '#111827'),
+  colorParam('accentColor', 'param.guideColor', '#0f766e')
 ] as const;
 
 export const cafeWall: IllusionDefinition = {
@@ -37,9 +40,11 @@ export const cafeWall: IllusionDefinition = {
       mortar: rng.int(3, 14),
       offset: rng.float(0.3, 0.7, 2),
       contrast: rng.float(0.55, 1, 2),
+      showGuide: rng.next() > 0.78,
       background: rng.pick(['#d9e1e6', '#d6d3d1', '#cbd5e1']),
       tileLight: pair[0],
-      tileDark: pair[1]
+      tileDark: pair[1],
+      accentColor: rng.pick(['#0f766e', '#3159b7', '#b45309'])
     };
   },
   renderCanvas: (ctx, params) => {
@@ -71,6 +76,14 @@ export const cafeWall: IllusionDefinition = {
     }
 
     ctx.restore();
+
+    if (paramBoolean(params, 'showGuide')) {
+      const scale = width / EXPORT_SIZE;
+      ctx.save();
+      ctx.scale(scale, scale);
+      drawGuideSegments(ctx, measurementGridSegments(params));
+      ctx.restore();
+    }
   },
   renderSvg: (params) => {
     const rows = paramNumber(params, 'rows');
@@ -96,6 +109,10 @@ export const cafeWall: IllusionDefinition = {
       }
     }
 
-    return svgDocument(`<g opacity="${contrast}">${parts.join('')}</g>`, paramColor(params, 'background'));
+    const guides = paramBoolean(params, 'showGuide')
+      ? svgGuideSegments(measurementGridSegments(params)).join('')
+      : '';
+
+    return svgDocument(`<g opacity="${contrast}">${parts.join('')}</g>${guides}`, paramColor(params, 'background'));
   }
 };

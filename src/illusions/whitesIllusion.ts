@@ -1,12 +1,16 @@
-import { colorParam, defaults, rangeParam } from './common';
+import { colorParam, defaults, rangeParam, toggleParam } from './common';
+import { drawGuideSegments, sameColorDiagonalSegments, svgGuideSegments } from './guideHelpers';
 import { renderScaled } from './v02Helpers';
 import { svgDocument, svgRect } from '../svg';
 import { EXPORT_SIZE, paramColor, paramNumber, type IllusionDefinition } from '../types';
 
+type FilledRect = { x: number; y: number; width: number; height: number; color: string; opacity: number };
+
 const schema = [
-  rangeParam('stripeCount', 'param.stripeCount', 6, 22, 1, 12),
-  rangeParam('lineWidth', 'param.lineWidth', 70, 190, 5, 120, 'px'),
-  rangeParam('contrast', 'param.contrast', 0.25, 0.95, 0.01, 0.74),
+  rangeParam('stripeCount', 'param.stripeCount', 4, 30, 1, 12),
+  rangeParam('lineWidth', 'param.lineWidth', 40, 240, 5, 120, 'px'),
+  rangeParam('contrast', 'param.contrast', 0.05, 1, 0.01, 0.74),
+  toggleParam('showGuide', 'param.showGuide', false),
   colorParam('background', 'param.background', '#f8fafc'),
   colorParam('colorA', 'param.colorA', '#111827'),
   colorParam('colorB', 'param.colorB', '#f8fafc'),
@@ -25,6 +29,7 @@ export const whitesIllusion: IllusionDefinition = {
     stripeCount: rng.int(9, 18),
     lineWidth: rng.int(90, 160),
     contrast: rng.float(0.55, 0.9, 2),
+    showGuide: rng.next() > 0.82,
     background: rng.pick(['#f8fafc', '#fff7ed', '#f1f5f9']),
     colorA: rng.pick(['#111827', '#172554', '#3f1d1d']),
     colorB: rng.pick(['#f8fafc', '#fef3c7', '#dbeafe']),
@@ -38,18 +43,27 @@ export const whitesIllusion: IllusionDefinition = {
         scaled.fillRect(rect.x, rect.y, rect.width, rect.height);
       }
       scaled.globalAlpha = 1;
+      if (params.showGuide === true) {
+        drawGuideSegments(scaled, sameColorDiagonalSegments(String(params.centralColor)));
+      }
     });
   },
-  renderSvg: (params) => svgDocument(rects(params).map((rect) => `<g opacity="${rect.opacity}">${svgRect(rect.x, rect.y, rect.width, rect.height, rect.color)}</g>`).join(''), paramColor(params, 'background'))
+  renderSvg: (params) => {
+    const parts = [
+      ...rects(params).map((rect) => `<g opacity="${rect.opacity}">${svgRect(rect.x, rect.y, rect.width, rect.height, rect.color)}</g>`),
+      ...(params.showGuide === true ? svgGuideSegments(sameColorDiagonalSegments(String(params.centralColor))) : [])
+    ];
+    return svgDocument(parts.join(''), paramColor(params, 'background'));
+  }
 };
 
-function rects(params: Record<string, unknown>): { x: number; y: number; width: number; height: number; color: string; opacity: number }[] {
+function rects(params: Record<string, unknown>): FilledRect[] {
   const count = Number(params.stripeCount);
   const barWidth = Number(params.lineWidth);
   const rowH = 1180 / count;
   const x0 = 150;
   const y0 = 210;
-  const result: { x: number; y: number; width: number; height: number; color: string; opacity: number }[] = [];
+  const result: FilledRect[] = [];
 
   for (let row = 0; row < count; row += 1) {
     result.push({

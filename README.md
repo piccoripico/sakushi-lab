@@ -1,4 +1,4 @@
-# Sakushi Lab
+﻿# Sakushi Lab
 
 A static, multilingual visual illusion playground. It runs entirely in the browser with Vite, vanilla TypeScript, Canvas, SVG export, and WebM recording.
 
@@ -24,34 +24,32 @@ The generated images and videos are suitable for learning, demonstrations, desig
 
 ## Features
 
-- 24 visual illusions:
-  - Geometry / form:
-    - Café Wall: staggered tiles make parallel lines look tilted.
-    - Hermann / Scintillating Grid: grid intersections create fleeting dark spots.
-    - Müller-Lyer: arrow fins change the perceived length of equal lines.
-    - Ponzo: perspective cues make equal bars look different.
-    - Poggendorff: an occluding band makes a diagonal look displaced.
-    - Zöllner: crossing strokes make parallel lines seem to lean.
-    - Hering: radiating lines make straight parallels bow outward.
-    - Wundt: converging lines make straight parallels bow inward.
-    - Vertical-Horizontal: equal vertical and horizontal lines feel unequal.
-    - Jastrow: identical curved bands look different when offset.
-    - Ebbinghaus: surrounding circles change the perceived size of equal centers.
-    - Delboeuf: surrounding rings change the perceived size of equal circles.
-    - Sander Parallelogram: skewed frames distort perceived line length.
-    - Kanizsa Triangle: cut-out shapes imply a triangle that is not drawn.
-    - Fraser Spiral: tilted arc segments suggest a spiral on circular paths.
-  - Color / brightness:
-    - Simultaneous Contrast: identical colors shift with their surroundings.
-    - Mach Bands: brightness edges create extra light and dark fringes.
-    - White's Illusion: equal gray bars look different across stripes.
-    - Cornsweet: a narrow shaded edge changes perceived brightness.
-  - Motion:
-    - Moiré Motion Field: overlapping stripes create moving interference.
-    - Peripheral Drift: repeated contrast patterns appear to drift.
-    - Ouchi Illusion: a striped center seems to slide over its background.
-    - Lilac Chaser: a rotating gap creates a moving afterimage effect.
-    - Pinna-Brelstaff: tilted ring segments appear to rotate as they move.
+- 18 visual illusions:
+  - Static images
+    - Geometry / form:
+      - Café Wall: staggered tiles make parallel lines look tilted.
+      - Hermann Grid: grid intersections create fleeting dark spots.
+      - Müller-Lyer: arrow fins change the perceived length of equal lines.
+      - Ponzo: perspective cues make equal bars look different.
+      - Poggendorff: an occluding band makes a diagonal look displaced.
+      - Zöllner: crossing strokes make parallel lines seem to lean.
+      - Hering: radiating lines make straight parallels bow outward.
+      - Vertical-Horizontal: equal vertical and horizontal lines feel unequal.
+      - Ebbinghaus: surrounding circles change the perceived size of equal centers.
+      - Delboeuf: surrounding rings change the perceived size of equal circles.
+      - Sander Parallelogram: skewed frames distort perceived line length.
+      - Kanizsa Triangle: cut-out disks and corner shapes imply a triangle that is not drawn.
+    - Figure / ground:
+      - Rubin Vase: a vase and two face profiles compete as figure and ground.
+    - Color / brightness:
+      - Simultaneous Contrast: identical colors shift with their surroundings.
+      - White's Illusion: equal gray bars look different across stripes.
+      - Cornsweet: a narrow shaded edge changes perceived brightness.
+  - Videos
+    - Motion / afterimage patterns:
+      - Lilac Chaser: a rotating gap creates a moving afterimage effect.
+    - Reversible depth:
+      - Rotating Necker Cube: motion makes a wireframe cube flip in depth.
 - Parameter controls generated from each illusion module's schema.
 - Optional seed controls for reproducible generation.
 - Deterministic generation with seed-backed URL sharing.
