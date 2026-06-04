@@ -1,7 +1,7 @@
 import { colorParam, defaults, rangeParam, toggleParam } from './common';
 import { measurementGridSegments, type GuideSegment } from './guideHelpers';
-import { canvasCircle, canvasLine, renderScaled } from './v02Helpers';
-import { svgCircle, svgDocument, svgLine } from '../svg';
+import { canvasLine, renderScaled } from './v02Helpers';
+import { svgDocument, svgLine } from '../svg';
 import { EXPORT_SIZE, paramBoolean, paramColor, paramNumber, type IllusionDefinition, type ParamValues } from '../types';
 
 const schema = [
@@ -9,7 +9,6 @@ const schema = [
   rangeParam('separation', 'param.separation', 160, 760, 10, 420, 'px'),
   rangeParam('lineWidth', 'param.lineWidth', 2, 32, 1, 10, 'px'),
   rangeParam('contrast', 'param.contrast', 0.1, 1, 0.01, 0.82),
-  toggleParam('showVanishingPoint', 'param.showVanishingPoint', false),
   toggleParam('showHorizon', 'param.showHorizon', false),
   toggleParam('showDepthGuides', 'param.showDepthGuides', true),
   toggleParam('showTargets', 'param.showTargets', true),
@@ -32,7 +31,6 @@ export const ponzo: IllusionDefinition = {
     separation: rng.int(320, 560),
     lineWidth: rng.int(6, 18),
     contrast: rng.float(0.55, 0.95, 2),
-    showVanishingPoint: rng.next() > 0.75,
     showHorizon: rng.next() > 0.7,
     showDepthGuides: true,
     showTargets: true,
@@ -48,9 +46,6 @@ export const ponzo: IllusionDefinition = {
   },
   renderSvg: (params) => {
     const parts = geometry(params).map((line) => svgLine(...line));
-    if (params.showVanishingPoint === true) {
-      parts.push(svgCircle(EXPORT_SIZE / 2, 150, 18, paramColor(params, 'accentColor'), paramColor(params, 'background'), 5));
-    }
     return svgDocument(parts.join(''), paramColor(params, 'background'));
   }
 };
@@ -58,10 +53,6 @@ export const ponzo: IllusionDefinition = {
 function draw(ctx: CanvasRenderingContext2D, params: ParamValues): void {
   for (const [x1, y1, x2, y2, color, width] of geometry(params)) {
     canvasLine(ctx, x1, y1, x2, y2, color, width);
-  }
-
-  if (params.showVanishingPoint === true) {
-    canvasCircle(ctx, EXPORT_SIZE / 2, 150, 18, String(params.accentColor), String(params.background), 5);
   }
 }
 
