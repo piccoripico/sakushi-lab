@@ -83,6 +83,9 @@ describe('i18n', () => {
         expect(text, `${language}.${key}`).not.toContain('{params}');
         expect(paragraphs.length, `${language}.${key}`).toBeGreaterThanOrEqual(3);
         expect(paragraphs.every((paragraph) => paragraph.length > 12), `${language}.${key}`).toBe(true);
+        if (language !== 'en') {
+          expect(text, `${language}.${key}`).not.toBe(translations.en[key as keyof typeof translations.en]);
+        }
       }
     }
   });
