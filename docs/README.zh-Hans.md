@@ -14,6 +14,16 @@ Sakushi Lab 是一个静态、多语言的视觉错觉实验场。它完全在�
 - [繁體中文](README.zh-Hant.md)
 - [한국어](README.ko.md)
 
+## 屏幕截图
+
+### Home
+
+![Home 页面的屏幕截图](images/readme-home-zh-Hans.png)
+
+### Explore
+
+![Explore 页面的屏幕截图](images/readme-explore-zh-Hans.png)
+
 ## 关于视觉错觉
 
 视觉错觉是图像或运动图案，用来展示知觉会在多大程度上依赖上下文。物理上平行的线可能看起来倾斜，相同大小的形状可能显得不同，静止图案也可能让人感觉闪烁或移动。

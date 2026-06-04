@@ -14,6 +14,16 @@ Sakushi Lab은 정적 다국어 시각 착시 실험장입니다. Vite, vanilla 
 - [简体中文](README.zh-Hans.md)
 - [繁體中文](README.zh-Hant.md)
 
+## 스크린샷
+
+### Home
+
+![Home 페이지 스크린샷](images/readme-home-ko.png)
+
+### Explore
+
+![Explore 페이지 스크린샷](images/readme-explore-ko.png)
+
 ## 시각 착시에 대하여
 
 시각 착시는 지각이 주변 조건과 맥락에 얼마나 크게 의존하는지 보여 주는 이미지나 움직임 패턴입니다. 실제로는 평행한 선이 기울어 보이거나, 같은 크기의 도형이 다르게 보이거나, 정지한 무늬가 흔들리거나 움직이는 것처럼 느껴질 수 있습니다.

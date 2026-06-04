@@ -14,6 +14,16 @@ Site en ligne : [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 - [繁體中文](README.zh-Hant.md)
 - [한국어](README.ko.md)
 
+## Captures D'écran
+
+### Accueil
+
+![Capture d'écran de la page d'accueil](images/readme-home-fr.png)
+
+### Explorer
+
+![Capture d'écran de la page Explorer](images/readme-explore-fr.png)
+
 ## À Propos Des Illusions Visuelles
 
 Les illusions visuelles sont des images ou des motifs en mouvement qui montrent à quel point la perception dépend du contexte. Des lignes physiquement parallèles peuvent sembler inclinées, des formes identiques peuvent paraître de tailles différentes, et des motifs immobiles peuvent donner l'impression de scintiller ou de bouger.

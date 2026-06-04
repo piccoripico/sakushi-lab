@@ -14,6 +14,16 @@ Sitio en línea: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 - [繁體中文](README.zh-Hant.md)
 - [한국어](README.ko.md)
 
+## Capturas De Pantalla
+
+### Inicio
+
+![Captura de pantalla de la página de inicio](images/readme-home-es.png)
+
+### Explorar
+
+![Captura de pantalla de la página Explorar](images/readme-explore-es.png)
+
 ## Sobre Las Ilusiones Visuales
 
 Las ilusiones visuales son imágenes o patrones de movimiento que muestran cuánto depende la percepción del contexto. Líneas físicamente paralelas pueden parecer inclinadas, formas iguales pueden verse de tamaños distintos y patrones estáticos pueden parecer vibrar o moverse.

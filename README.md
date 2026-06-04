@@ -14,6 +14,16 @@ Live site: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 - [繁體中文](docs/README.zh-Hant.md)
 - [한국어](docs/README.ko.md)
 
+## Screenshots
+
+### Home
+
+![Home page screenshot](docs/images/readme-home-en.png)
+
+### Explore
+
+![Explore page screenshot](docs/images/readme-explore-en.png)
+
 ## About Visual Illusions
 
 Visual illusions are images or motion patterns that reveal how strongly perception depends on context. Lines that are physically parallel may appear tilted, equal shapes may look different in size, and still patterns may seem to shimmer or move.

@@ -14,6 +14,16 @@ Live-Site: [Sakushi Lab](https://piccoripico.github.io/sakushi-lab/)
 - [繁體中文](README.zh-Hant.md)
 - [한국어](README.ko.md)
 
+## Screenshots
+
+### Startseite
+
+![Screenshot der Startseite](images/readme-home-de.png)
+
+### Explore
+
+![Screenshot der Explore-Seite](images/readme-explore-de.png)
+
 ## Über Visuelle Illusionen
 
 Visuelle Illusionen sind Bilder oder Bewegungsmuster, die zeigen, wie stark Wahrnehmung vom Kontext abhängt. Physikalisch parallele Linien können geneigt erscheinen, gleiche Formen können unterschiedlich groß wirken, und unbewegte Muster können flimmern oder sich zu bewegen scheinen.
