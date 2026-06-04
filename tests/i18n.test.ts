@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { detailedIllusionDescriptionParagraphs } from '../src/illusionDescriptions';
 import { LANGUAGE_NAMES, SUPPORTED_LANGUAGES, detectLanguage, normalizeLanguage, translations } from '../src/i18n';
 
 describe('i18n', () => {
@@ -86,6 +87,22 @@ describe('i18n', () => {
         if (language !== 'en') {
           expect(text, `${language}.${key}`).not.toBe(translations.en[key as keyof typeof translations.en]);
         }
+      }
+    }
+  });
+
+  it('stores detailed UI descriptions as paragraph arrays before stringifying them for translation lookup', () => {
+    const descriptionKeys = Object.keys(translations.en).filter(
+      (key) => key.startsWith('illusion.') && key.endsWith('.description')
+    );
+
+    for (const language of SUPPORTED_LANGUAGES) {
+      for (const key of descriptionKeys) {
+        const paragraphs = detailedIllusionDescriptionParagraphs[language][key];
+
+        expect(Array.isArray(paragraphs), `${language}.${key}`).toBe(true);
+        expect(paragraphs.length, `${language}.${key}`).toBeGreaterThanOrEqual(3);
+        expect(paragraphs.join('\n\n')).toBe(translations[language][key as keyof typeof translations.en]);
       }
     }
   });
